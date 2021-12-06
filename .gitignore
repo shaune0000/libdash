@@ -5,6 +5,7 @@
 *.sdf
 *.opensdf
 *.aps
+*.vs
 
 # Compiled Object files
 *.slo

@@ -109,7 +109,7 @@ Node*   DOMParser::ProcessNode              ()
            node->SetType(type);
            node->SetText(text);
            std::cout << "   " << text << std::endl;
-           delete text;
+           //delete text;
            return node;
        }
     }

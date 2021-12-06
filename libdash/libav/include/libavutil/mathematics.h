@@ -1,20 +1,20 @@
 /*
  * copyright (c) 2005 Michael Niedermayer <michaelni@gmx.at>
  *
- * This file is part of FFmpeg.
+ * This file is part of Libav.
  *
- * FFmpeg is free software; you can redistribute it and/or
+ * Libav is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * FFmpeg is distributed in the hope that it will be useful,
+ * Libav is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with FFmpeg; if not, write to the Free Software
+ * License along with Libav; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -25,7 +25,6 @@
 #include <math.h>
 #include "attributes.h"
 #include "rational.h"
-#include "intfloat.h"
 
 #ifndef M_E
 #define M_E            2.7182818284590452354   /* e */
@@ -52,10 +51,10 @@
 #define M_SQRT2        1.41421356237309504880  /* sqrt(2) */
 #endif
 #ifndef NAN
-#define NAN            av_int2float(0x7fc00000)
+#define NAN            (0.0/0.0)
 #endif
 #ifndef INFINITY
-#define INFINITY       av_int2float(0x7f800000)
+#define INFINITY       (1.0/0.0)
 #endif
 
 /**
@@ -95,12 +94,6 @@ int64_t av_rescale_rnd(int64_t a, int64_t b, int64_t c, enum AVRounding) av_cons
  * Rescale a 64-bit integer by 2 rational numbers.
  */
 int64_t av_rescale_q(int64_t a, AVRational bq, AVRational cq) av_const;
-
-/**
- * Rescale a 64-bit integer by 2 rational numbers with specified rounding.
- */
-int64_t av_rescale_q_rnd(int64_t a, AVRational bq, AVRational cq,
-                         enum AVRounding) av_const;
 
 /**
  * Compare 2 timestamps each in its own timebases.

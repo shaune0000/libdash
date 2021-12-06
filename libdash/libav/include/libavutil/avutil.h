@@ -1,20 +1,20 @@
 /*
  * copyright (c) 2006 Michael Niedermayer <michaelni@gmx.at>
  *
- * This file is part of FFmpeg.
+ * This file is part of Libav.
  *
- * FFmpeg is free software; you can redistribute it and/or
+ * Libav is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2.1 of the License, or (at your option) any later version.
  *
- * FFmpeg is distributed in the hope that it will be useful,
+ * Libav is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with FFmpeg; if not, write to the Free Software
+ * License along with Libav; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
@@ -26,13 +26,13 @@
  * external API header
  */
 
-/*
+/**
  * @mainpage
  *
- * @section ffmpeg_intro Introduction
+ * @section libav_intro Introduction
  *
- * This document describes the usage of the different libraries
- * provided by FFmpeg.
+ * This document describe the usage of the different libraries
+ * provided by Libav.
  *
  * @li @ref libavc "libavcodec" encoding/decoding library
  * @li @subpage libavfilter graph based frame editing library
@@ -41,13 +41,14 @@
  * @li @ref lavu "libavutil" common utility library
  * @li @subpage libpostproc post processing library
  * @li @subpage libswscale  color conversion and scaling library
+ *
  */
 
 /**
  * @defgroup lavu Common utility functions
  *
  * @brief
- * libavutil contains the code shared across all the other FFmpeg
+ * libavutil contains the code shared across all the other Libav
  * libraries
  *
  * @note In order to use the functions provided by avutil you must include
@@ -143,6 +144,56 @@
 
 /**
  * @}
+ *
+ * @defgroup lavu_ver Version and Build diagnostics
+ *
+ * Macros and function useful to check at compiletime and at runtime
+ * which version of libavutil is in use.
+ *
+ * @{
+ */
+
+#define LIBAVUTIL_VERSION_MAJOR 51
+#define LIBAVUTIL_VERSION_MINOR 22
+#define LIBAVUTIL_VERSION_MICRO  3
+
+#define LIBAVUTIL_VERSION_INT   AV_VERSION_INT(LIBAVUTIL_VERSION_MAJOR, \
+                                               LIBAVUTIL_VERSION_MINOR, \
+                                               LIBAVUTIL_VERSION_MICRO)
+#define LIBAVUTIL_VERSION       AV_VERSION(LIBAVUTIL_VERSION_MAJOR,     \
+                                           LIBAVUTIL_VERSION_MINOR,     \
+                                           LIBAVUTIL_VERSION_MICRO)
+#define LIBAVUTIL_BUILD         LIBAVUTIL_VERSION_INT
+
+#define LIBAVUTIL_IDENT         "Lavu" AV_STRINGIFY(LIBAVUTIL_VERSION)
+
+/**
+ * @}
+ *
+ * @defgroup depr_guards Deprecation guards
+ * Those FF_API_* defines are not part of public API.
+ * They may change, break or disappear at any time.
+ *
+ * They are used mostly internally to mark code that will be removed
+ * on the next major version.
+ *
+ * @{
+ */
+#ifndef FF_API_GET_BITS_PER_SAMPLE_FMT
+#define FF_API_GET_BITS_PER_SAMPLE_FMT (LIBAVUTIL_VERSION_MAJOR < 52)
+#endif
+#ifndef FF_API_FIND_OPT
+#define FF_API_FIND_OPT                 (LIBAVUTIL_VERSION_MAJOR < 52)
+#endif
+#ifndef FF_API_AV_FIFO_PEEK
+#define FF_API_AV_FIFO_PEEK             (LIBAVUTIL_VERSION_MAJOR < 52)
+#endif
+#ifndef FF_API_OLD_AVOPTIONS
+#define FF_API_OLD_AVOPTIONS            (LIBAVUTIL_VERSION_MAJOR < 52)
+#endif
+
+/**
+ * @}
  */
 
 /**
@@ -185,12 +236,6 @@ enum AVMediaType {
 };
 
 /**
- * Return a string describing the media_type enum, NULL if media_type
- * is unknown.
- */
-const char *av_get_media_type_string(enum AVMediaType media_type);
-
-/**
  * @defgroup lavu_const Constants
  * @{
  *
@@ -211,7 +256,7 @@ const char *av_get_media_type_string(enum AVMediaType media_type);
  * @}
  * @defgroup lavu_time Timestamp specific
  *
- * FFmpeg internal timebase and timestamp definitions
+ * Libav internal timebase and timestamp definitions
  *
  * @{
  */
@@ -248,8 +293,7 @@ const char *av_get_media_type_string(enum AVMediaType media_type);
  */
 
 enum AVPictureType {
-    AV_PICTURE_TYPE_NONE = 0, ///< Undefined
-    AV_PICTURE_TYPE_I,     ///< Intra
+    AV_PICTURE_TYPE_I = 1, ///< Intra
     AV_PICTURE_TYPE_P,     ///< Predicted
     AV_PICTURE_TYPE_B,     ///< Bi-dir predicted
     AV_PICTURE_TYPE_S,     ///< S(GMC)-VOP MPEG4
@@ -273,20 +317,6 @@ char av_get_picture_type_char(enum AVPictureType pict_type);
 
 #include "common.h"
 #include "error.h"
-#include "version.h"
-#include "mathematics.h"
-#include "rational.h"
-#include "intfloat_readwrite.h"
-#include "log.h"
-#include "pixfmt.h"
-
-/**
- * Return x default pointer in case p is NULL.
- */
-static inline void *av_x_if_null(const void *p, const void *x)
-{
-    return (void *)(intptr_t)(p ? p : x);
-}
 
 /**
  * @}
